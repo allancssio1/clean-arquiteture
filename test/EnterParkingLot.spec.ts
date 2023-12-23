@@ -5,7 +5,7 @@ import { ParkingLotInMemory } from "../src/infra/repositories/ParkingLotInMemory
   test("Should be to able create enter parking lot with car", async () => {
     const parkingLotInMemory = new ParkingLotInMemory()
     const enterParckingLot = new EnterParkingLot(parkingLotInMemory)
-    const {props} = enterParckingLot.execute()
+    const parkingLot = await enterParckingLot.execute("shopping")
 
-    expect(props.code).toBe("shopping")
+    expect(parkingLot.code).toBe("shopping")
   })

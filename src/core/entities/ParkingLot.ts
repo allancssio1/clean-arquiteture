@@ -1,4 +1,4 @@
-type ParkingLotProps =  {
+interface ParkingLotProps  {
   code: string
   capacity: number
   openHour: number
@@ -6,9 +6,15 @@ type ParkingLotProps =  {
 }
 
 export class ParkingLot {
-  props: ParkingLotProps
-  constructor(props: ParkingLotProps) {
-    this.props = props
-
+  code: string
+  capacity: number
+  openHour: number
+  openClose: number
+  
+  constructor({code, capacity, openHour, openClose}: ParkingLotProps) {
+    this.code = code
+    this.capacity = capacity
+    this.openHour = openHour
+    this.openClose = openClose
   }
 }

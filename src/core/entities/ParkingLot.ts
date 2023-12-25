@@ -1,8 +1,9 @@
-interface ParkingLotProps  {
+export interface ParkingLotProps  {
   code: string
   capacity: number
   openHour: number
   closeHour: number
+  occupiedSpaces: number
 }
 
 export class ParkingLot {
@@ -10,12 +11,14 @@ export class ParkingLot {
   capacity: number
   openHour: number
   closeHour: number
+  occupiedSpaces: number
   
   constructor({code, capacity, openHour, closeHour}: ParkingLotProps) {
     this.code = code
     this.capacity = capacity
     this.openHour = openHour
     this.closeHour = closeHour
+    this.occupiedSpaces = 0
   }
 
   isOpen(date: Date) {

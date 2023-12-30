@@ -1,18 +1,35 @@
-import ParkingLot from "../../core/entities/ParkingLot";
-import { ParkingLotRepository } from "../../core/repositories/ParkingLotRepository";
+import PartkingLotAdapter from '../../adapter/PartkingLotAdapter'
+import ParkingLot from '../../core/entities/ParkingLot'
+import { ParkingLotRepository } from '../../core/repositories/ParkingLotRepository'
 
-export default class ParkingLotInMemory implements ParkingLotRepository{
+export default class ParkingLotInMemory implements ParkingLotRepository {
   parkingLots = [
-    new ParkingLot('shopping', 5, 8, 22)
+    {
+      code: 'shopping',
+      capacity: 5,
+      open_Hour: 8,
+      close_Hour: 22,
+    },
   ]
   parkedCars = []
 
   async getParkingLot(code: string): Promise<ParkingLot> {
-    return Promise.resolve(this.parkingLots.find(item => item.code === code)) 
+    const parkingLotData = this.parkingLots.find((item) => item.code === code)
+
+    const occupiedSpaces = this.parkedCars.length
+
+    const parkingLot = PartkingLotAdapter.create(
+      parkingLotData.code,
+      parkingLotData.capacity,
+      parkingLotData.open_Hour,
+      parkingLotData.close_Hour,
+      occupiedSpaces,
+    )
+
+    return Promise.resolve(parkingLot)
   }
 
   async saveParkedCar(code: string, plate: string, date: Date): Promise<void> {
-    this.parkedCars.push({code, plate, date})
+    this.parkedCars.push({ code, plate, date })
   }
-  
 }

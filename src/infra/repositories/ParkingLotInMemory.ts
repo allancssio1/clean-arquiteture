@@ -7,8 +7,8 @@ export default class ParkingLotInMemory implements ParkingLotRepository {
     {
       code: 'shopping',
       capacity: 5,
-      open_Hour: 8,
-      close_Hour: 22,
+      open_hour: 8,
+      close_hour: 22,
     },
   ]
   parkedCars = []
@@ -21,8 +21,8 @@ export default class ParkingLotInMemory implements ParkingLotRepository {
     const parkingLot = PartkingLotAdapter.create(
       parkingLotData.code,
       parkingLotData.capacity,
-      parkingLotData.open_Hour,
-      parkingLotData.close_Hour,
+      parkingLotData.open_hour,
+      parkingLotData.close_hour,
       occupiedSpaces,
     )
 

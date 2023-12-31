@@ -9,11 +9,13 @@ export default class ParkingLotRepositorySQL implements ParkingLotRepository {
       'select * from example.parking_log where code = $1',
       [code],
     )
+
     return PartkingLotAdapter.create(
       parkingLot.code,
       parkingLot.capacity,
-      parkingLot.open_Hour,
-      parkingLot.close_Hour,
+      parkingLot.open_hour,
+      parkingLot.close_hour,
+      0,
     )
   }
   saveParkedCar(code: string, plate: string, date: Date): Promise<void> {

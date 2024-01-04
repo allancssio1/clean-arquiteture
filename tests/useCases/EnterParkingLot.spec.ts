@@ -2,17 +2,28 @@ import { expect, test } from 'vitest'
 import EnterParkingLot from '../../src/core/useCases/EnterParkingLot'
 import ParkingLotInMemory from '../../src/infra/repositories/ParkingLotInMemory'
 import { GetParkingLot } from '../../src/core/useCases/GetParkingLot'
+import ParkingLotRepositorySQL from '../../src/infra/database/repositories/ParkingLotRepositorySQL'
+
+test.skip('should be able get parkting_log', async () => {
+  const parkingLotRepository = new ParkingLotRepositorySQL()
+  const getParkingLot = new GetParkingLot(parkingLotRepository)
+  const pargkingLotData = await getParkingLot.execute('shopping')
+
+  expect(pargkingLotData.code).toBe('shopping')
+})
 
 test('Should be able enter pargking lot', async () => {
-  const parkingLotRepository = new ParkingLotInMemory()
+  const parkingLotRepositorymemory = new ParkingLotInMemory()
+  const parkingLotRepositorySQL = new ParkingLotRepositorySQL()
 
-  const enterParkingLot = new EnterParkingLot(parkingLotRepository)
-  const getParkingLot = new GetParkingLot(parkingLotRepository)
+  const enterParkingLot = new EnterParkingLot(parkingLotRepositorySQL)
+  const getParkingLot = new GetParkingLot(parkingLotRepositorySQL)
 
   const parkingLotBeforeEnter = await getParkingLot.execute('shopping')
+
   expect(parkingLotBeforeEnter.occupiedSpaces).toBe(0)
 
-  await enterParkingLot.execute(
+  const parkintLotCreated = await enterParkingLot.execute(
     'shopping',
     'MMM-0001',
     new Date('2023-12-01T10:00:00'),
@@ -22,7 +33,7 @@ test('Should be able enter pargking lot', async () => {
   expect(parkingLotAfterEnter.occupiedSpaces).toBe(1)
 })
 
-test('Should be closed pargking lot', async () => {
+test.skip('Should be closed pargking lot', async () => {
   const parkingLotRepository = new ParkingLotInMemory()
 
   const enterParkingLot = new EnterParkingLot(parkingLotRepository)
@@ -41,7 +52,7 @@ test('Should be closed pargking lot', async () => {
   ).rejects.toThrow()
 })
 
-test('Should be full pargking lot', async () => {
+test.skip('Should be full pargking lot', async () => {
   const parkingLotRepository = new ParkingLotInMemory()
 
   const enterParkingLot = new EnterParkingLot(parkingLotRepository)

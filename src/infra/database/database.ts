@@ -3,11 +3,11 @@ import pgPromise from 'pg-promise'
 const pgp = pgPromise({})
 
 const db = pgp({
-  user: 'postgres',
-  password: '',
+  user: 'ca_db',
+  password: 'ca_db',
   host: 'localhost',
   port: 5432,
-  database: 'app',
+  database: 'ca_db',
   idleTimeoutMillis: 100,
 })
 

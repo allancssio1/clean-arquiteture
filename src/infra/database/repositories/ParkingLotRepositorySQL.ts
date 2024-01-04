@@ -6,7 +6,7 @@ import db from '../database'
 export default class ParkingLotRepositorySQL implements ParkingLotRepository {
   async getParkingLot(code: string): Promise<ParkingLot> {
     const parkingLot = await db.oneOrNone(
-      'select * from example.parking_log where code = $1',
+      'select *, (select count(*) from parked_car pc where pc.code = pl.code) :: int from parking_lot pl where pl.code = $1',
       [code],
     )
 
@@ -15,10 +15,14 @@ export default class ParkingLotRepositorySQL implements ParkingLotRepository {
       parkingLot.capacity,
       parkingLot.open_hour,
       parkingLot.close_hour,
-      0,
+      parkingLot.count,
     )
   }
-  saveParkedCar(code: string, plate: string, date: Date): Promise<void> {
-    throw new Error('Method not implemented.')
+
+  async saveParkedCar(code: string, plate: string, date: Date): Promise<void> {
+    await db.none(
+      `insert into parked_car (code, plate, date) values ($1, $2, $3)`,
+      [code, plate, date],
+    )
   }
 }
